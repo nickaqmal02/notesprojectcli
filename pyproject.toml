@@ -9,7 +9,8 @@ license = "MIT"
 requires-python = ">=3.14"
 dependencies = [
     "requests (>=2.34.2,<3.0.0)",
-    "click (>=8.5.0,<9.0.0)"
+    "click (>=8.5.0,<9.0.0)",
+    "pytest (>=9.1.1,<10.0.0)"
 ]
 
 
@@ -19,3 +20,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 notesprojectcli = "notesprojectcli.main:cli"
+
+[dependency-groups]
+dev = [
+    "mypy (>=2.3.1,<3.0.0)"
+]

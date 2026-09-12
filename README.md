@@ -1,51 +1,98 @@
 # notesprojectcli
 
-A tiny command-line notes app. Add notes, list them, delete them.
+A tiny command-line notes app. Create, list, update, and delete notes — all from your terminal.
 
+## Requirements
+
+- Python 3.14+
+- [Poetry](https://python-poetry.org/)
+
+## Install
 
 ```bash
+git clone <your-repo-url>
+cd notesprojectcli
 poetry install
+```
 
+## usage
 
+```bash
+# Create a note
+poetry run notesprojectcli create shopping --content "milk, eggs" --tags "home,urgent"
 
-eval $(poetry env activate)
+# List all notes
+poetry run notesprojectcli list
 
-deactivate
+# Show a single note in detail
+poetry run notesprojectcli show 1
 
+# Update a note
+poetry run notesprojectcli update 1 --content "milk, eggs, bread"
+
+# Delete a note
+poetry run notesprojectcli delete 2
 
 ```
 
-## Project Structure
+## where all notes will be saved ??
 
+```bash
+~/.notesprojectcli/notes.json
+```
+
+## development section
+
+```bash
+
+# Enter the virtual environment
+eval $(poetry env activate)
+
+# Run type checks
+poetry run mypy notesprojectcli/
+
+# Run tests
+poetry run pytest
+
+# Leave the environment
+deactivate
+
+```
+
+## project structure
+
+```bash
 notesprojectcli/
 ├── pyproject.toml            # project config + dependencies
 ├── poetry.lock               # pinned dependency versions
 ├── README.md
 ├── notesprojectcli/          # the package
 │   ├── __init__.py
-│   └── main.py               # CLI logic
+│   ├── main.py               # CLI layer (Click commands)
+│   └── crud.py               # data layer (load/save/update/delete)
 └── tests/
-    └── test_main.py
+    └── test_crud.py
+```
 
-# Lisense
-## MIT
+## design
+```txt
+The code is split into two layers:
+
+main.py — the CLI. Handles user input, output, and Click decorators.
+
+crud.py — the logic. Handles reading/writing notes and business rules.
+
+main.py never touches JSON or file paths. crud.py never imports click. This separation makes the logic testable without invoking the CLI.
 
 
-### 💡 Adjust These Before Committing
+```
 
-- **Repo URL** — replace `<your-repo-url>` with the actual GitHub link (or remove the clone line if you haven't pushed yet).
-- **Python version** — check your `pyproject.toml` for the actual required version (e.g. `^3.11` vs `^3.12`) and match it.
-- **Command examples** — swap `notesprojectcli` for whatever you named the CLI entry point if you change it later.
-- **License** — if you didn't pick MIT during `poetry init`, either add a `LICENSE` file or remove that section.
+*this project was fully-type annotated and checked with mypy*
 
-### 📝 What Makes This README "Simple but Real"
+```bash
+poetry run mypy notesprojectcli/
 
-It has the four things every project README needs:
+# expected
+Succes: no issues found in 3 source files
 
-1. **What it is** — one sentence at the top
-2. **How to install** — copy-pasteable commands
-3. **How to use** — real examples, not just `--help`
-4. **How to develop** — for future-you or a collaborator
-
-Short enough to actually read, complete enough to actually follow. 🚀
-
+```
