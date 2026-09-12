@@ -1,0 +1,9 @@
+{
+  "content": "my first note",
+  "tags": [
+    "youtube",
+    "work"
+  ],
+  "created_at": "2026-09-12T22:31:38.725121",
+  "version": 1
+}

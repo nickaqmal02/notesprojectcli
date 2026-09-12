@@ -1,30 +1,33 @@
 import click
 from datetime import datetime
 import json
+from pathlib import Path
 
-# this click command decorator use
+NOTES_DIR = Path(__file__).resolve().parent / "allnotes"
+
 @click.command()
-# this argument can be past to our created method
 @click.argument("title")
 @click.option("--version", type=int, default=1)
 @click.option("--content", prompt=True, help='Content of the note')
 @click.option("--tags", help="comma seperated list of tag")
-# now we can pass all of that created argument into our method
-def create(title: str, content: str, tags:str) -> None:
+def create(title: str, content: str, tags:str, version: int) -> None:
     """ function: create a new note"""
-    notes_directory = "~/.notes"
-    note_name = f"{title}.txt"
-    if (notes_directory / note_name).exists():
-        click.echo(f"Note with title '{title}' already exists")
-        exit(1)
+    NOTES_DIR.mkdir(parents=True, exist_ok=True)
+
+    note_path = NOTES_DIR / f"{title}.txt"
+
+    if note_path.exists():
+        raise click.ClickException(f"Note with tile '{title}' already exists")
 
     note_data = {
         "content": content,
         "tags": tags.split(",") if tags else [],
         "created_at": datetime.now().isoformat(),
+        "version": version,
     }
-    with open(notes_directory / note_name, "a+") as file:
-        json.dump(note_data, file)
+
+    with open(note_path, "w") as f:
+        json.dump(note_data, f, indent=2)
 
     click.echo(f"Note '{title}' created.")
 

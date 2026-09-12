@@ -34,4 +34,24 @@ eval $(poetry env activate)
 
 ```
 
+## learning about Path from pathlib
+
+```python
+from pathlib import Path
+
+# this is very crucial lesson to learn
+# 3 basics path that we need to actually know 
+
+Path("~/.notes").expanduser() # /Users/apple/.notes
+Path(__file__).resolve().parent / "notes"
+# / "notes" here means that we will create dir to store our data
+# without .parent() we will return file not the parent dir
+
+
+
+
+```
+
+## storing something in json using json approach 
+
 

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 import click
-import crud
+from notesprojectcli.crud import create
 
 # but how do we know exactly what does all decorator does ?? 
 # the answer is ? : just browse it all in git click/core.py
@@ -9,9 +9,9 @@ import crud
 #
 @click.group()
 def cli() -> None:
-    print("hello world")
+    pass
 
+cli.add_command(create)
 
-@cli.add_command(crud.create)
 
 
